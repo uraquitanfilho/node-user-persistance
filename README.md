@@ -56,8 +56,8 @@ sudo docker run --name holidayextras -p 127.0.0.1:3333:3333 -d uraquitanfilho/gr
 sudo docker container start holidayextras
 ```
 
-> It's possible to create your Image with the Dockerfile
-> Was used Yarn
+- It's possible to create your Image with the Dockerfile
+- Was used Yarn
 
 ### Clone Project + Custom docker image
 
@@ -100,8 +100,8 @@ yarn test
 
 ### tests result
 
-- <img src="http://www.urakombat.com/growin/jest.png" width="200" hight="190" />
-- <img src="http://www.urakombat.com/growin/jest_html.png" width="200" hight="190" />
+- <img src="http://www.urakombat.com/growin/jest.png" />
+- <img src="http://www.urakombat.com/growin/jest_html.png" />
 
 ## If you're using Nginx
 
