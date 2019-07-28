@@ -1,0 +1,14 @@
+/**
+ * ps: this file dont works with import/export so we will import with
+ * old form using require.
+ *
+ * resolve: to works in mac, win, linux. makes a default folder struct
+ */
+const { resolve } = require('path');
+
+module.exports = {
+  config: resolve(__dirname, 'src', 'config', 'database.js'),
+  'models-path': resolve(__dirname, 'src', 'app', 'models'),
+  'migrations-path': resolve(__dirname, 'src','database','migrations'),
+  'seeders-path': resolve(__dirname,'src','database','seeds')
+}
