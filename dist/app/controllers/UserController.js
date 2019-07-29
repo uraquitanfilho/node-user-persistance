@@ -8,12 +8,12 @@ let users = [];
 let max = 1;
 
 class UserController {
-  index(req, res) {
+  async index(req, res) {
     const { page } = req.query;
     const maxPage = _params2.default;
     const offset = (page - 1) * maxPage;
     const user = new (0, _User2.default)(users, max);
-    const all = user.findAll();
+    const all = await user.findAll();
     const data = all.slice(offset).slice(0, maxPage);
 
     const totalPage =

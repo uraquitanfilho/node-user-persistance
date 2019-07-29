@@ -4,15 +4,12 @@ import * as Yup from 'yup';
 import User from '../models/User';
 import MAXPAGE from '../../config/params';
 
-let users = [];
-let max = 1;
-
 class UserController {
   async index(req, res) {
     const { page } = req.query;
     const maxPage = MAXPAGE;
     const offset = (page - 1) * maxPage;
-    const user = new User(users, max);
+    const user = new User();
     const all = await user.findAll();
     const data = all.slice(offset).slice(0, maxPage);
 
@@ -24,7 +21,7 @@ class UserController {
   }
 
   async show(req, res) {
-    const user = new User(users, max);
+    const user = new User();
     const { id } = req.params;
 
     const item = await user.findOne(id);
@@ -49,11 +46,8 @@ class UserController {
       return res.status(400).json({ message: err.errors });
     });
 
-    const user = new User(users, max);
+    const user = new User();
     const result = await user.add(req.body);
-    if (parseInt(result.status) === 200) {
-      max += 1; // UNIQUE id
-    }
 
     return res.status(result.status).json(result);
   }
@@ -75,16 +69,16 @@ class UserController {
       return res.status(400).json({ message: err.errors });
     });
 
-    const user = new User(users, max);
+    const user = new User();
     const result = await user.update(id, req.body);
     return res.status(result.status).json(result);
   }
 
   async delete(req, res) {
     const { id } = req.params;
-    const user = new User(users, max);
+    const user = new User();
     const d = await user.delete(id);
-    users = d;
+
     return res.status(200).json({ message: 'Data Deleted', data: d });
   }
 }

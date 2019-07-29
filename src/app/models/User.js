@@ -3,17 +3,19 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable radix */
 class User {
-  constructor(data, max) {
-    this.users = data; // persistance array of users
-    this.max = max; // persistance id
+  constructor() {
+    if (!global.users) {
+      global.users = [];
+      global.id = 0;
+    } // persistance array of users
   }
 
   findAll() {
-    return this.users;
+    return global.users;
   }
 
   async findOne(id) {
-    const item = await this.users.filter(elem => {
+    const item = await global.users.filter(elem => {
       return parseInt(elem.id) === parseInt(id);
     });
 
@@ -25,15 +27,16 @@ class User {
       return { status: 400, message: 'duplicate e-mail not allowed', data: {} };
     }
 
-    item.id = this.max;
+    global.id += 1;
+    item.id = global.id;
     const timestamp = new Date().toString();
     item.createAt = timestamp;
     item.updatedAt = timestamp;
-    this.users.push(item);
+    global.users.push(item);
     return {
       status: 200,
       message: 'User successfuly added',
-      data: this.users[0],
+      data: global.users[0],
     };
   }
 
@@ -43,10 +46,10 @@ class User {
     }
     let indexItem = 0;
     let isUpdated = false;
-    await this.users.map((elem, index) => {
+    await global.users.map((elem, index) => {
       if (parseInt(elem.id) === parseInt(id)) {
-        this.users[index] = {
-          ...this.users[index],
+        global.users[index] = {
+          ...global.users[index],
           updatedAt: new Date().toString(),
           email: item.email ? item.email : elem.email,
           familyName: item.familyName ? item.familyName : elem.familyName,
@@ -61,7 +64,7 @@ class User {
       return {
         status: 200,
         message: 'data updated',
-        data: this.users[indexItem],
+        data: global.users[indexItem],
       };
     }
     return {
@@ -72,16 +75,16 @@ class User {
   }
 
   async delete(id) {
-    this.users = await this.users.filter(
+    global.users = await global.users.filter(
       elem => parseInt(elem.id) !== parseInt(id)
     );
-    return this.users;
+    return global.users;
   }
 
   async checkDuplicateEmail(email, id) {
     if (email === undefined) return false;
 
-    const tot = await this.users.filter(elem => {
+    const tot = await global.users.filter(elem => {
       return elem.email === email;
     });
     if (tot.length > 0 && parseInt(tot[0].id) !== parseInt(id)) {

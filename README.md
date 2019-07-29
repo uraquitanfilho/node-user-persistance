@@ -114,7 +114,7 @@ nano /etc/nginx/sites-available/default
 > Add
 
 ```shell
-    location /holidayextras {
+    location /holidayextras/v1 {
         proxy_pass http://127.0.0.1:YOUR_PORT;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
