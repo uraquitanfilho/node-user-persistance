@@ -9,8 +9,8 @@ class UserController {
     const { page } = req.query;
     const maxPage = MAXPAGE;
     const offset = (page - 1) * maxPage;
-    const user = new User();
-    const all = await user.findAll();
+
+    const all = await User.findAll();
     const data = all.slice(offset).slice(0, maxPage);
 
     const totalPage =
@@ -21,10 +21,9 @@ class UserController {
   }
 
   async show(req, res) {
-    const user = new User();
     const { id } = req.params;
 
-    const item = await user.findOne(id);
+    const item = await User.findOne(id);
 
     if (item.length > 0) {
       const { email } = item[0];
@@ -46,8 +45,7 @@ class UserController {
       return res.status(400).json({ message: err.errors });
     });
 
-    const user = new User();
-    const result = await user.add(req.body);
+    const result = await User.add(req.body);
 
     return res.status(result.status).json(result);
   }
@@ -69,15 +67,14 @@ class UserController {
       return res.status(400).json({ message: err.errors });
     });
 
-    const user = new User();
-    const result = await user.update(id, req.body);
+    const result = await User.update(id, req.body);
     return res.status(result.status).json(result);
   }
 
   async delete(req, res) {
     const { id } = req.params;
-    const user = new User();
-    const d = await user.delete(id);
+
+    const d = await User.delete(id);
 
     return res.status(200).json({ message: 'Data Deleted', data: d });
   }

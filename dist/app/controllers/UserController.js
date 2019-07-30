@@ -4,16 +4,13 @@ var _yup = require('yup'); var Yup = _interopRequireWildcard(_yup);
 var _User = require('../models/User'); var _User2 = _interopRequireDefault(_User);
 var _params = require('../../config/params'); var _params2 = _interopRequireDefault(_params);
 
-let users = [];
-let max = 1;
-
 class UserController {
   async index(req, res) {
     const { page } = req.query;
     const maxPage = _params2.default;
     const offset = (page - 1) * maxPage;
-    const user = new (0, _User2.default)(users, max);
-    const all = await user.findAll();
+
+    const all = await _User2.default.findAll();
     const data = all.slice(offset).slice(0, maxPage);
 
     const totalPage =
@@ -24,10 +21,9 @@ class UserController {
   }
 
   async show(req, res) {
-    const user = new (0, _User2.default)(users, max);
     const { id } = req.params;
 
-    const item = await user.findOne(id);
+    const item = await _User2.default.findOne(id);
 
     if (item.length > 0) {
       const { email } = item[0];
@@ -49,11 +45,7 @@ class UserController {
       return res.status(400).json({ message: err.errors });
     });
 
-    const user = new (0, _User2.default)(users, max);
-    const result = await user.add(req.body);
-    if (parseInt(result.status) === 200) {
-      max += 1; // UNIQUE id
-    }
+    const result = await _User2.default.add(req.body);
 
     return res.status(result.status).json(result);
   }
@@ -75,16 +67,15 @@ class UserController {
       return res.status(400).json({ message: err.errors });
     });
 
-    const user = new (0, _User2.default)(users, max);
-    const result = await user.update(id, req.body);
+    const result = await _User2.default.update(id, req.body);
     return res.status(result.status).json(result);
   }
 
   async delete(req, res) {
     const { id } = req.params;
-    const user = new (0, _User2.default)(users, max);
-    const d = await user.delete(id);
-    users = d;
+
+    const d = await _User2.default.delete(id);
+
     return res.status(200).json({ message: 'Data Deleted', data: d });
   }
 }

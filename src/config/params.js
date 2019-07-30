@@ -1,3 +1,3 @@
-const MAXPAGE = 2;
+const MAXPAGE = 5;
 
 export default MAXPAGE;

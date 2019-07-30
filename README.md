@@ -52,7 +52,7 @@
 
 ```shell
 sudo docker pull uraquitanfilho/growin_holidayextras
-sudo docker run --name holidayextras -p 127.0.0.1:3333:3333 -d uraquitanfilho/growin_holidayextras
+sudo docker run --name holidayextras -p 127.0.0.1:9464:3333 -d uraquitanfilho/growin_holidayextras
 sudo docker container start holidayextras
 ```
 
